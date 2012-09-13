@@ -1,0 +1,65 @@
+00. No tests
+
+Well. Next please.
+
+0. Isolation: no cross validation in tests.
+
+- Server: doesn't use client at all.
+- Client: uses fake responses (fakeweb).
+- App: stubs out the client.
+
+GOOD: not much, really. Well, possibly better than no tests at all but hey.
+
+BAD: there is no communication between systems and if there is a change somewhere, tests won't break elsewhere.
+
+USE CASE: You just start coding and that's what happens.
+
+1. Validation across systems. "Sandbox" testing.
+
+- Server: Use a form of the client that allows you to talk to yourself.
+- Client: Talk to the real api server that was started for the sake of the tests.
+- App: pristine client, talk to the real API server that was started.
+
+GOOD: changing one thing will break other things.
+
+BAD: App specs are slow because it requires a full server to run.
+BAD: Complex tests are impossible because there are no shortcuts for setup, there are no fixtures. You can't Foo.reset! state easily.
+BAD: Under a use case where the api was partial this is impossible. (if you don't have an api to do all the functionality you need for a full setup/teardown), you can't do this since you can't create a setup/teardown test case.
+
+USE CASE: Try to do integration the whole way through. 
+
+  Like testing against a running staging app; (like testing against a live login-development.engineyard.com).
+
+2. Fake Servers.
+
+- Server: Run the _client specs_ against yourself.
+- Client: specs run twice - real api server started for tests, and against fake server (shipped w client).
+- App: specs use the client and run against the fake server.
+
+GOOD: Server code confidential.
+GOOD: Eliminates duplication between server and client specs.
+GOOD: Faster specs.
+GOOD: Changes break things. (server - client - app)
+
+BAD: More steps in making a code change (releasing is harder).
+BAD: You need to maintain an entire fake codebase which can grow bigger than other approaches.
+
+USE CASE: You want faster tests and server confidentiality with confidence that change breaks things.
+
+  Instead of running it against the sandbox, you're running the server in memory. 
+  The reason you would need the fake vs just using the in-memory one is because you need it when you run app tests, you don't want to have a server running for that (server code confidentiality, and also no need for the 'weight' it provides, dependencies, databases etc etc). 
+
+3. Mapper pattern.
+
+- Server: Test the real mapper.
+- Client: specs run twice - real api server started for tests, and against fake Mapper (shipped w client).
+- App: specs use the client and run against the fake Mapper.
+
+GOOD: Server code confidential.
+GOOD: Server specs slimmer.
+GOOD: Eliminates duplication of code in the "HTTP parts" of the server.
+GOOD: Changes break things. (mapper - server - client - app)
+
+BAD: You need to understand the mapper pattern. Also, another layer than #2 (releasing is harder).
+
+USE CASE: Less duplication between tests less code, w confidence that change breaks things.
