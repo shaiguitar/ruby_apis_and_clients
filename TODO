@@ -1,4 +1,19 @@
-finish complete code examples for each type of testing mechanism
-correct code in the main slide file
-#jacob tags
-Add testing for mapper repo (not mapper class, but the main mapper repo).
+FAQ's
+
+Do I need both test.rb's for sandbox ? 
+
+   # test when there's a server specific behavior (special response when sent X) (test metrics/log file etc)
+   # test when there's a client specific behavior (raise specific error if server is down)
+   # QUESTION to audience but then what do I do with the 'shared' tests? where do I put them? (why not just put them in the client then?? - slow tests)
+   For fakes, need to add those tests as well.
+  
+   Client Complex tests are problematic - if we needed to check for a musician who uploaded too many songs: we don't have access to server functionality that we can use in the client that isn't exposed in the api (user actions). We would need to mock that behavior out in client tests, which breaks the integration path. Even if we did have an api for that we could use in the client, we'd still need to setup and teardown in our tests for that to set the sandbox server to the right state, which is not a lot, but is overhead.
+
+
+Between Sandbox and Fake mode, we still need server tests. Client tests serve as tool that you can use in development mode for the server (in fake scenario), where as in Sandbox mode, client tests are good for client, but not for server (in __development__ of server). it will eventually be useful, but not for development.
+
+Mapper - let's share more code: try to use part of our real api as the fake.
+   
+   Why do we have a fake for a mapper pattern?
+
+# change server status=>:ok to status => 'all that jazz' or something like that. (should make fake example clearer?)

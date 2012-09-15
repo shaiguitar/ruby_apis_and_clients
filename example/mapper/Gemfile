@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'rack'
+gem 'rack-client'
+gem 'rack-test'
+gem 'sinatra'
+gem 'pry'
+gem 'ey_api_hmac'
