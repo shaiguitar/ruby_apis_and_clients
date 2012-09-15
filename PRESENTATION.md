@@ -134,20 +134,22 @@ So we decide to move ahead and use a Sandbox for testing. We spin up our main ra
   # we do not mock anything out, we directly use the sandbox testing server we spun up.
 </pre>
 
-This works fairly well; if we decide to break or change our public api, our client and server tests will fail. However:
+This works fairly well; if we decide to break or change our public api, our client and server tests will fail. 
 
-Firstly, with sandboxes there's the obvious disadvantage of needing to set it up, maintain it's environment, dependencies etc. Just getting down to coding is blocked due to the overhead of setting up the sandbox.
+However, there are downsides.
 
-More importantly, if our musician consumers wanted to use the client library in an application they were building (which is the point of the client!) there would be no fakes or fixtures for them to use shipped with the client.
+Firstly, with sandboxes there's the obvious disadvantage of needing to set it up, maintain it's environment, dependencies etc. Just getting down to coding is blocked due to the overhead of setting up the sandbox servers etc.
 
-  #jacob
-  
+If our musician wanted to use the client library in an application they were building (which is the point of the client) there would be no fakes or fixtures for them to use shipped with the client.
+
 Client Complex tests are problematic - if we needed to check for a musician who uploaded too many songs: we don't have access to server functionality that we can use in the client that isn't exposed in the api (user actions). We would need to mock that behavior out in client tests, which breaks the integration path. Even if we did have an api for that we could use in the client, we'd still need to setup and teardown in our tests for that to set the sandbox server to the right state, which is not a lot, but is overhead.
 
-!SLIDE
-# In-memory & Fake servers #
+Also, for development purposes, running a full suite against a sandbox would take a lot longer then if I was running against a fake. So:
 
-We could use realweb[1], or something like it, to boot the server in memory and not need to handle with setup/teardown of server state for complex tests, or setting up and maintaining the sandbox. 
+!SLIDE
+# Fake servers #
+
+In this case we'll use realweb to boot the server in memory instead of a sandbox but the idea is the same as a sandbox. 
 
 <pre>
   module MyMuzikLabelAPI
@@ -183,28 +185,26 @@ We could use realweb[1], or something like it, to boot the server in memory and 
   # and is validated by the fact that our specs pass on the real.
 </pre>
 
-This is full integration, this is good. Some noticeable advantages are that we
+This is full integration, this is good. The advantages to this are
 
 1) Have a robust client lib, with a fake server that can be used in third party applications for their own tests.
-2) Server code confidential.
+2) We don't have to expose our server code, keep it confidential.
 3) Eliminates duplication between server and client specs.
 4) Faster specs.
 
 This is pretty good. 
 
-However (!), there are some bad things here:
+However, disadvantages are:
 
-1) More steps in making a code change (releasing is harder).
-2) You need to maintain an entire fake codebase which can grow bigger than other approaches.
+1) You need to maintain an entire fake codebase which can grow bigger than other approaches.
+2) More steps in making a code change (releasing is harder because you need to maintain fake+real).
 
 !SLIDE
 # Mapper style #
 
 SO! It's the last one, I promise ;)
 
-  #jacob
-
-You take a different approach and code the server, client and fake all in one repo, and tie it into your rails app at the end:
+You take a different approach and code the server, client and fake all in one repo, and tie it into your rails app at the end. In this way, instead of using a fake, we use our real as if it was the fake, and tie in loose ends at the end.
 
 <pre>
   
@@ -265,10 +265,10 @@ You take a different approach and code the server, client and fake all in one re
   # Integrtion test, down from musician third party app (some app using our client library) all the way up to our server API!
 
   Capybara.app = Rack::Builder.app do
-    map "http://mymuziklabel.localdev.engineyard.com/" do
+    map "http://mymuziklabel.localdev.com/" do
       run MyMuzikLabel::Application
     end
-    map "http://musiciansthirdpartyapp.localdev.engineyard.com/" do
+    map "http://musiciansthirdpartyapp.localdev.com/" do
       run MusiciansThirdPartyApp::Server
     end
     map "http://whatever.else.com/" do

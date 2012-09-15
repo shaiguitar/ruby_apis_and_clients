@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'rack'
+gem 'rack-client'
+gem 'rack-test'
+gem 'pry'
+gem 'realweb'
+gem 'sinatra'
