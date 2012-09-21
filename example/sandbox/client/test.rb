@@ -12,7 +12,7 @@ class ClientTest < Test::Unit::TestCase
     @name = "rock"
     @words = "and all that jazz"
     @client = MyMuzikLabelAPI::Client.new
-    @client.domain = "http://localhost:9393"
+    @client.domain = "localhost:9393"
   end
 
   def test_it_stores
