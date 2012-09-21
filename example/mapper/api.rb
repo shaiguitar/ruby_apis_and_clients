@@ -9,12 +9,6 @@ require 'sinatra'
 # we'll mount the api portion here in our server.
 module MyMuzikLabelAPI
 
-  def self.fake_app
-    app = MyMuzikLabelAPI::Server
-    app.mapper = MyMuzikLabelAPI::FakeMapper
-    app
-  end
-
   class Client
     def post_song(name, words)
       JSON.parse(connection.post("http://mymuziklabel.com/song/#{name}", {:words => words}).body)['status']
@@ -53,4 +47,11 @@ module MyMuzikLabelAPI
       {:words => Store[name]}
     end
   end
+
+  def self.fake_app
+    app = MyMuzikLabelAPI::Server
+    app.mapper = MyMuzikLabelAPI::FakeMapper
+    app
+  end
+
 end

@@ -4,13 +4,13 @@
 #
 ### We can route the requests we make in tests via the rack_builder in our tests, per domain. Very cool:
 # rack_builder = Rack::Builder.app do
-#    # third party app
+#    # consumer app
 #   map "http://musiciansthirdpartyapp.com/" do
 #     run MusiciansThirdPartyApp
 #   end
 #   # this is the server we're going to interact with
 #   map "http://mymuziklabel.com/" do
-#     run MyMuzikLabelAPI::FakeMapper.fake_app
+#     run MyMuzikLabelAPI.fake_app
 #   end
 #   # anything else
 #   map "http://whatever.else.com/" do

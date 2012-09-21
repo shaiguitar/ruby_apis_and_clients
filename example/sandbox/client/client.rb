@@ -11,11 +11,11 @@ module MyMuzikLabelAPI
     end
 
     def post_song(name, words)
-      JSON.parse(client.post("/song/#{name}", {}, {:words => words}).body)['status']
+      JSON.parse(client.post("http://#{@domain}/song/#{name}", {}, {:words => words}).body)['status']
     end
 
     def get_song(name)
-      JSON.parse(client.get("/song/#{name}").body)['words']
+      JSON.parse(client.get("http://#{@domain}/song/#{name}").body)['words']
     end
   end
 end
