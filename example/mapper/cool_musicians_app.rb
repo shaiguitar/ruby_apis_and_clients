@@ -10,7 +10,7 @@
 #   end
 #   # this is the server we're going to interact with
 #   map "http://mymuziklabel.com/" do
-#     run MyMuzikLabelAPI::FakeMapper.fake_app
+#     run MyMuzikLabelAPI.fake_app
 #   end
 #   # anything else
 #   map "http://whatever.else.com/" do
