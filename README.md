@@ -1,4 +1,8 @@
 ruby_apis_and_clients
 =====================
 
-presentation
+If you're here for the examples, check out the 
+
+  example
+
+directory. 
