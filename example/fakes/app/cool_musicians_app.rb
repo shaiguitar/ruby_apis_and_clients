@@ -15,3 +15,20 @@
 #   end
 # 
 # end
+
+require '../client/client'
+
+class SocialMusicUploader
+  @@uploaded_songs = []
+
+  def self.muzik_label_client
+    @client = MyMuzikLabelAPI::Client.new
+    @client.domain = 'mymuziklabel.localdev.com'
+    @client
+  end
+  
+  def self.upload_song_to_muzik_label(title, words)
+    muzik_label_client.post_song(title, words)
+  end
+
+end

@@ -1,4 +1,5 @@
 require 'json'
+
 module MyMuzikLabelAPI
   class Client
 
@@ -11,7 +12,7 @@ module MyMuzikLabelAPI
       # the idea holds, implementation be damned
       # use our fake app in consumer applications
       require 'realweb'
-      @server = RealWeb.start_server("fake_server_config.ru")
+      @server = RealWeb.start_server(File.expand_path(File.dirname(__FILE__) + "/fake_server_config.ru"))
       self.domain = "http://#{@server.host}:#{@server.port}"
     end
 

@@ -3,6 +3,10 @@
      Add "there are examples" somewhere towards the beginning...;
      When possible, it's great to test the server API via the client interface. (and still have separation of concerns though)
 
+ Examples
+   Third party apps make real. # TODO
+   Add in Faraday: done mocked mode. other modes explain # TODO?
+
 #TODO use cistern in client example in sandbox mode
 
 Notes:
@@ -28,6 +32,3 @@ https://github.com/lanej/cistern
 
 It's my birthday (rails conf)
 
-Examples
-  Third party apps make real. # TODO
-  Add in Faraday: done mocked mode. other modes explain # TODO?
