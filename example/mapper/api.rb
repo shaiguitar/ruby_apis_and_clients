@@ -20,6 +20,7 @@ module MyMuzikLabelAPI
       connection.backend = backend
     end
     def connection
+      # this is cheap way to abstract setting rack-client#handler (ey_api_hmac#backend) so we can pass a Rack::Builder/Capyabara.app/NetHTTP to use etc.
       @connection ||= EY::ApiHMAC::BaseConnection.new
     end
   end

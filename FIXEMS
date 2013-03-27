@@ -1,0 +1,33 @@
+#TODO Modifications
+     Conclusions
+     Add "there are examples" somewhere towards the beginning...;
+     When possible, it's great to test the server API via the client interface. (and still have separation of concerns though)
+
+#TODO use cistern in client example in sandbox mode
+
+Notes:
+
+In Sandbox mode, you could have a suite of fakewebs and run it twice like other modes, against the sandbox, HOWEVER:
+  The scope of what fakeweb does is limited; It doesn't save the state of the server, and that's the essential difference.
+    Meaning, you'll probably have tests that set things up in the server, and with a sandbox, tests depending on a certain state will work
+      but with fakeweb you'll need to have a different type of response for each of those states, so in local development you'll still have to 
+        use a sandbox before using fakeweb.
+   Also, wouldn't be simple to ship fixtures with the client with fakeweb, since it is very coupled to the implementation of the tests.
+   
+https://github.com/lanej/cistern 
+    New undocumented project that is super cool and is great for the use-case of being stuck in sandboxing mode, still having mocks.
+    It's not fully integrated:
+      It can be fully integrated, if you run in two modes (like mentioned later with running two modes in a server) as such:
+        one mode, you run the client specs against the real server (localhost, rack builder/capybara.app) and in a different mode
+        run the client specs against the mocked server (bundled in the client, as mocks).
+
+    It's a great way to add mocked mode to your api client even when you don't have access to server dev 
+
+    Even if it's not a full integration path (in later examples, running in both modes)
+    In many times it's the only option you have, and it's still useful to have in third party apps using it.
+
+It's my birthday (rails conf)
+
+Examples
+  Third party apps make real. # TODO
+  Add in Faraday: done mocked mode. other modes explain # TODO?

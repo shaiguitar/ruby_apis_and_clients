@@ -7,7 +7,7 @@ module MyMuzikLabelAPI
     attr_accessor :domain
 
     def client
-      @client ||= Rack::Client.new(@domain)
+      @client = Rack::Client.new(@domain)
     end
 
     def post_song(name, words)
